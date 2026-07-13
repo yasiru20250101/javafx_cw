@@ -1,16 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.courswork.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.courswork.util.HelloController">
+
+    <top>
+        <VBox alignment="CENTER" spacing="10">
+
+            <ImageView fitWidth="120"
+                       fitHeight="120"
+                       preserveRatio="true">
+
+                <image>
+                    <Image url="@/images/tuktuk_logo.png"/>
+                </image>
+
+            </ImageView>
+
+            <Label text="Malabe Tuk Tuk Spare Parts Management System"
+                   style="-fx-font-size:24px; -fx-font-weight:bold;"/>
+
+        </VBox>
+    </top>
+
+    <center>
+
+        <VBox spacing="15">
+
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <GridPane hgap="10" vgap="10">
+
+                <Label text="Part ID"/>
+                <TextField fx:id="txtPartId" GridPane.columnIndex="1"/>
+
+                <Label text="Part Name" GridPane.rowIndex="1"/>
+                <TextField fx:id="txtPartName"
+                           GridPane.columnIndex="1"
+                           GridPane.rowIndex="1"/>
+
+                <Label text="Brand" GridPane.rowIndex="2"/>
+                <TextField fx:id="txtBrand"
+                           GridPane.columnIndex="1"
+                           GridPane.rowIndex="2"/>
+
+                <Label text="Price" GridPane.rowIndex="3"/>
+                <TextField fx:id="txtPrice"
+                           GridPane.columnIndex="1"
+                           GridPane.rowIndex="3"/>
+
+                <Label text="Quantity" GridPane.rowIndex="4"/>
+                <TextField fx:id="txtQuantity"
+                           GridPane.columnIndex="1"
+                           GridPane.rowIndex="4"/>
+
+                <Label text="Category" GridPane.rowIndex="5"/>
+                <TextField fx:id="txtCategory"
+                           GridPane.columnIndex="1"
+                           GridPane.rowIndex="5"/>
+
+                <Label text="Date Added" GridPane.rowIndex="6"/>
+                <TextField fx:id="txtDate"
+                           GridPane.columnIndex="1"
+                           GridPane.rowIndex="6"/>
+
+                <Label text="Image"/>
+                <TextField fx:id="txtImage"
+                           GridPane.columnIndex="1"
+                           GridPane.rowIndex="7"/>
+
+            </GridPane>
+
+            <HBox spacing="10">
+
+                <Button text="Add"/>
+                <Button text="Update"/>
+                <Button text="Delete"/>
+                <Button text="Clear"/>
+
+            </HBox>
+
+            <TableView fx:id="tableParts">
+
+                <columns>
+
+                    <TableColumn text="Part ID"/>
+                    <TableColumn text="Part Name"/>
+                    <TableColumn text="Brand"/>
+                    <TableColumn text="Price"/>
+                    <TableColumn text="Qty"/>
+                    <TableColumn text="Category"/>
+
+                </columns>
+
+            </TableView>
+
+        </VBox>
+
+    </center>
+
+</BorderPane>
