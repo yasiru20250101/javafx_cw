@@ -1,12 +1,24 @@
 package com.example.courswork.model;
 
-public class cartItem {
+public class cartitem {
 
     private part part;
     private int quantity;
 
-    public cartItem(part part, int quantity) {
+    public cartitem(part part, int quantity) {
         this.part = part;
+        this.quantity = quantity;
+    }
+
+    public part getPart() {
+        return part;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
