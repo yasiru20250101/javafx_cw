@@ -1,5 +1,6 @@
 package com.example.courswork.util;
 
+import com.example.courswork.model.part;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -31,7 +32,7 @@ public class HelloController {
     private TextField txtImage;
 
     @FXML
-    private TableView<?> tableParts;
+    private TableView<part> tableParts;
 
     @FXML
     public void initialize() {
