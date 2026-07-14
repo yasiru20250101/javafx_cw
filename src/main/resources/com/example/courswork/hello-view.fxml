@@ -74,7 +74,7 @@
                            GridPane.columnIndex="1"
                            GridPane.rowIndex="6"/>
 
-                <Label text="Image"/>
+                <Label text="Image" GridPane.rowIndex="7"/>
                 <TextField fx:id="txtImage"
                            GridPane.columnIndex="1"
                            GridPane.rowIndex="7"/>
