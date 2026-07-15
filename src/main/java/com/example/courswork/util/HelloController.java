@@ -1,6 +1,8 @@
 package com.example.courswork.util;
 
 import com.example.courswork.model.part;
+import com.example.courswork.service.InventoryService;
+import com.example.courswork.service.DealerService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
