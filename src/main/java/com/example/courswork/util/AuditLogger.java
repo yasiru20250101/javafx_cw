@@ -1,17 +1,31 @@
 package com.example.courswork.util;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class AuditLogger {
+    public static void log(String filePath, String action, String itemCode, String quantity) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filePath,true));
 
-    private static final String LOG_PATH = "src/main/resources/com/example/courswork/audit_log.txt";
-    private static final DateTimeFormatter FORMAT =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String timeStamp = now.format(formatter);
 
-    public void logAction(String action, String details) {
+            String logEntry = timeStamp + " | " + action + " | " + itemCode + " | " + quantity;
 
+            writer.write(logEntry);
+            writer.newLine();
+            writer.close();
+
+        } catch (IOException e) {
+            System.out.println("Error writing to audit log: " + e.getMessage());
+        }
     }
+
+
 }
