@@ -14,6 +14,22 @@ public class Dealer {
         this. dealerLocation= dealerLocation;
 
     }
+    public String getDealerId(){
+        return dealerId;
+    }
+    public String getDealerName(){
+        return dealerName;
+    }
+
+    public String getDealerPhone() {
+        return dealerPhone;
+    }
+
+    public String getDealerLocation() {
+        return dealerLocation;
+    }
+    
+
     public String toString() {
         return dealerId + " | " + dealerName + " | telno:" + dealerPhone + " | location:" + dealerLocation ;
     }
