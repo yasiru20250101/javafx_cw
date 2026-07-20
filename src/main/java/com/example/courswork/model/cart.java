@@ -15,7 +15,7 @@ public class cart {
         return items.isEmpty();
     }
 
-    // Done — we wrote this together already
+
     public boolean addItem(part part, int quantity) {
         if (quantity <= 0) {
             return false;
