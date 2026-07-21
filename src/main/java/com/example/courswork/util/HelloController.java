@@ -2,6 +2,7 @@ package com.example.courswork.util;
 
 import com.example.courswork.model.part;
 import com.example.courswork.model.cart;
+import com.example.courswork.model.Dealer;
 import com.example.courswork.service.InventoryService;
 import com.example.courswork.service.DealerService;
 import javafx.collections.FXCollections;
@@ -80,9 +81,9 @@ public class HelloController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        String inventoryPath = "src/main/resources/com/example/courswork/inventory_legacy.txt";
-        String dealersPath = "src/main/resources/com/example/courswork/dealers_legacy.txt";
-        String auditPath = "src/main/resources/com/example/courswork/audit_log.txt";
+        String inventoryPath = "src/main/java/com/example/courswork/data/inventory_legacy.txt";
+        String dealersPath = "src/main/java/com/example/courswork/data/dealers_legacy.txt";
+        String auditPath = "src/main/java/com/example/courswork/data/audit_log.txt";
 
         inventoryService = new InventoryService(inventoryPath, auditPath, 5);
         dealerService = new DealerService(dealersPath);
@@ -162,6 +163,37 @@ public class HelloController implements Initializable {
 
         List<part> results = inventoryService.searchParts(keyword, category, minPrice, maxPrice);
         tableParts.setItems(FXCollections.observableArrayList(results));
+    }
+    @FXML
+    public void onDealersClicked() {
+        List<Dealer> randomDealers = dealerService.getRandomDealers();
+
+        Dialog<Void> dialog = new Dialog<>();
+        dialog.setTitle("Dealers");
+        dialog.setHeaderText("4 randomly selected dealers, sorted by location");
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+
+        TableView<Dealer> dealerTable = new TableView<>();
+
+        TableColumn<Dealer, String> colId = new TableColumn<>("Dealer ID");
+        colId.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDealerId()));
+
+        TableColumn<Dealer, String> colName = new TableColumn<>("Name");
+        colName.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDealerName()));
+
+        TableColumn<Dealer, String> colPhone = new TableColumn<>("Phone");
+        colPhone.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDealerPhone()));
+
+        TableColumn<Dealer, String> colLocation = new TableColumn<>("Location");
+        colLocation.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDealerLocation()));
+
+        dealerTable.getColumns().addAll(colId, colName, colPhone, colLocation);
+        dealerTable.setItems(FXCollections.observableArrayList(randomDealers));
+        dealerTable.setPrefHeight(160);
+        dealerTable.setPrefWidth(420);
+
+        dialog.getDialogPane().setContent(dealerTable);
+        dialog.showAndWait();
     }
 
     public void refreshTable() {
