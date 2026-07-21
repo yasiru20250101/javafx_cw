@@ -28,12 +28,12 @@
             </padding>
 
             <HBox spacing="10">
-            <Button onAction="#onDealersClicked" text="Dealers" />
+            <Button onAction="#onDealersClicked" prefHeight="26.0" prefWidth="208.0" text="Dealers" />
             </HBox>
-                    
 
 
-            <HBox spacing="8" alignment="CENTER_LEFT">
+
+            <HBox alignment="CENTER_LEFT" spacing="8">
                 <Label text="Search:" />
                 <TextField fx:id="searchField" promptText="Name, brand or part id" HBox.hgrow="ALWAYS" />
                 <Label text="Category:" />
@@ -45,60 +45,23 @@
                 <Button onAction="#onSearchClicked" text="Search" />
                 <Button onAction="#onResetClicked" text="Reset" />
             </HBox>
-            <GridPane hgap="10" vgap="10">
-                <Label text="Part ID" />
-                <TextField fx:id="txtPartId" GridPane.columnIndex="1" />
-
-                <Label text="Part Name" GridPane.rowIndex="1" />
-                <TextField fx:id="txtPartName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-                <Label text="Brand" GridPane.rowIndex="2" />
-                <TextField fx:id="txtBrand" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-                <Label text="Price" GridPane.rowIndex="3" />
-                <TextField fx:id="txtPrice" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-
-                <Label text="Quantity" GridPane.rowIndex="4" />
-                <TextField fx:id="txtQuantity" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-
-                <Label text="Category" GridPane.rowIndex="5" />
-                <TextField fx:id="txtCategory" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-
-                <Label text="Date Added" GridPane.rowIndex="6" />
-                <TextField fx:id="txtDate" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-
-                <Label text="Image Path" GridPane.rowIndex="7" />
-                <TextField fx:id="txtImage" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-
-                <columnConstraints>
-                    <ColumnConstraints />
-                    <ColumnConstraints />
-                </columnConstraints>
-                <rowConstraints>
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                </rowConstraints>
-            </GridPane>
 
 
 
             <HBox spacing="10">
-                <Button onAction="#onAddClick" text="Add" />
-                <Button onAction="#onUpdateClick" text="Update" />
-                <Button onAction="#onDeleteClick" text="Delete" />
-                <Button onAction="#onClearClick" text="Clear" />
+                <Button onAction="#onAddClick" prefHeight="26.0" prefWidth="112.0" text="Add" />
+                <Button onAction="#onUpdateClick" prefHeight="26.0" prefWidth="122.0" text="Update" />
+                <Button onAction="#onDeleteClick" prefHeight="26.0" prefWidth="122.0" text="Delete" />
             </HBox>
 
             <HBox spacing="20">
                 <Label fx:id="totalCountLabel" text="Total Parts: 0" />
-                <Label fx:id="totalValueLabel" text="Total Value: Rs. 0.00" />
             </HBox>
+         <HBox prefHeight="30.0" prefWidth="555.0">
+            <children>
+                   <Label fx:id="totalValueLabel" text="Total Value: Rs. 0.00" />
+            </children>
+         </HBox>
             <Label fx:id="lowStockLabel" style="-fx-text-fill: red;" wrapText="true" />
 
             <TableView fx:id="tableParts" VBox.vgrow="ALWAYS">
