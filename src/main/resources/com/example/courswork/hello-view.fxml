@@ -28,6 +28,18 @@
             </padding>
 
 
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Label text="Search:" />
+                <TextField fx:id="searchField" promptText="Name, brand or part id" HBox.hgrow="ALWAYS" />
+                <Label text="Category:" />
+                <ComboBox fx:id="categoryFilter" prefWidth="140" />
+                <Label text="Min price:" />
+                <TextField fx:id="minPriceField" prefWidth="80" />
+                <Label text="Max price:" />
+                <TextField fx:id="maxPriceField" prefWidth="80" />
+                <Button onAction="#onSearchClicked" text="Search" />
+                <Button onAction="#onResetClicked" text="Reset" />
+            </HBox>
             <GridPane hgap="10" vgap="10">
                 <Label text="Part ID" />
                 <TextField fx:id="txtPartId" GridPane.columnIndex="1" />
@@ -50,7 +62,6 @@
                 <Label text="Date Added" GridPane.rowIndex="6" />
                 <TextField fx:id="txtDate" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
-                <!-- Added text label for the Image path textfield -->
                 <Label text="Image Path" GridPane.rowIndex="7" />
                 <TextField fx:id="txtImage" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
@@ -70,7 +81,8 @@
                 </rowConstraints>
             </GridPane>
 
-            <!-- Add/Update/Delete/Clear now all wired to matching controller methods -->
+
+
             <HBox spacing="10">
                 <Button onAction="#onAddClick" text="Add" />
                 <Button onAction="#onUpdateClick" text="Update" />
@@ -78,14 +90,12 @@
                 <Button onAction="#onClearClick" text="Clear" />
             </HBox>
 
-            <!-- Summary labels, needed by refreshTable() / refreshLowStock() in the controller -->
             <HBox spacing="20">
                 <Label fx:id="totalCountLabel" text="Total Parts: 0" />
                 <Label fx:id="totalValueLabel" text="Total Value: Rs. 0.00" />
             </HBox>
             <Label fx:id="lowStockLabel" style="-fx-text-fill: red;" wrapText="true" />
 
-            <!-- Added fx:id to TableColumns to populate columns correctly, plus the Date column -->
             <TableView fx:id="tableParts" VBox.vgrow="ALWAYS">
                 <columns>
                     <TableColumn fx:id="colPartId" text="Part ID" />
