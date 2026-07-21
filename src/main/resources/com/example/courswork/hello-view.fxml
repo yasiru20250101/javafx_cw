@@ -27,6 +27,11 @@
                 <Insets bottom="20" left="20" right="20" top="20" />
             </padding>
 
+            <HBox spacing="10">
+            <Button onAction="#onDealersClicked" text="Dealers" />
+            </HBox>
+                    
+
 
             <HBox spacing="8" alignment="CENTER_LEFT">
                 <Label text="Search:" />
