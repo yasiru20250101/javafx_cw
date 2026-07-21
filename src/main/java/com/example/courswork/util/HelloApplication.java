@@ -9,15 +9,14 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        // Fixed the dot to a slash in the resource path
+        
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("/com/example/courswork/hello-view.fxml"));
 
-        Scene scene = new Scene(loader.load(), 900, 650);
+        Scene scene = new Scene(loader.load(),900, 650);
         stage.setTitle("Malabe Tuk Tuk Spare Parts Management System");
         stage.setScene(scene);
         stage.show();
     }
-
     public static void main(String[] args) {
         launch(args);
     }
