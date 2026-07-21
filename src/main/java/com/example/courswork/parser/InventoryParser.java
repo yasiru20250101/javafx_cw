@@ -41,9 +41,17 @@ public class InventoryParser {
 
                     String brand = "";
                     brand = fields.length > 2 ? fields[2] : "";
+                    String rawPrice = fields[3];
+                    String cleanedPrice = rawPrice;
 
-                    double price = Double.parseDouble(fields[3].replaceAll("[^0-9.]", ""));
+                    if (cleanedPrice.toLowerCase().startsWith("rs.")) {
+                        cleanedPrice = cleanedPrice.substring(3);
+                    } else if (cleanedPrice.toLowerCase().startsWith("rs")) {
+                        cleanedPrice = cleanedPrice.substring(2);
+                    }
+                    cleanedPrice = cleanedPrice.trim();
 
+                    double price = Double.parseDouble(cleanedPrice);
                     int quantity = Integer.parseInt(fields[4]);
 
                     String category = "";
