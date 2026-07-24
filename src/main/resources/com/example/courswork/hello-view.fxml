@@ -29,6 +29,7 @@
 
             <HBox spacing="10">
             <Button onAction="#onDealersClicked" prefHeight="26.0" prefWidth="208.0" text="Dealers" />
+            <Button onAction="#onPosClicked" text="Point of Sale" />
             </HBox>
 
 
@@ -62,7 +63,7 @@
                    <Label fx:id="totalValueLabel" text="Total Value: Rs. 0.00" />
             </children>
          </HBox>
-            <Label fx:id="lowStockLabel" style="-fx-text-fill: red;" wrapText="true" />
+            <Label fx:id="lowStockLabel" prefHeight="67.0" prefWidth="818.0" style="-fx-text-fill: red;" wrapText="true" />
 
             <TableView fx:id="tableParts" VBox.vgrow="ALWAYS">
                 <columns>
