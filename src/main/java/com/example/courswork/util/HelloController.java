@@ -5,6 +5,11 @@ import com.example.courswork.model.cart;
 import com.example.courswork.model.Dealer;
 import com.example.courswork.service.InventoryService;
 import com.example.courswork.service.DealerService;
+import com.example.courswork.model.cartitem;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.beans.property.SimpleStringProperty;
@@ -15,7 +20,9 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +47,8 @@ public class HelloController implements Initializable {
     private TableColumn<part, String> colCategory;
     @FXML
     private TableColumn<part, String> colDate;
+    @FXML
+    private TableColumn<part, String> colImage;
 
     @FXML
     private TextField searchField;
@@ -54,6 +63,8 @@ public class HelloController implements Initializable {
     private Label totalCountLabel;
     @FXML
     private Label totalValueLabel;
+    @FXML
+    private Label totalSalesLabel;
     @FXML
     private Label lowStockLabel;
 
@@ -77,6 +88,7 @@ public class HelloController implements Initializable {
     private InventoryService inventoryService;
     private DealerService dealerService;
     private cart cart;
+    private double totalSales = 0.0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -95,11 +107,110 @@ public class HelloController implements Initializable {
         setupTableColumns();
         setupCategoryFilter();
 
+        tableParts.setFixedCellSize(48);
+
         refreshTable();
         refreshLowStock();
 
         System.out.println("Loaded " + inventoryService.getTotalCount() + " parts");
         System.out.println("Loaded " + dealerService.getTotalDealers() + " dealers");
+    }
+
+    @FXML
+    public void onPosClicked() {
+        Dialog<Void> dialog = new Dialog<>();
+        dialog.setTitle("Point of Sale");
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+
+        ComboBox<part> partBox = new ComboBox<>(FXCollections.observableArrayList(inventoryService.parts));
+        TextField qtyField = new TextField();
+        qtyField.setPromptText("Quantity");
+        Button addToCartBtn = new Button("Add to Cart");
+
+        TableView<cartitem> cartTable = new TableView<>();
+        TableColumn<cartitem, String> colName = new TableColumn<>("Part");
+        colName.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getPart().getPartname()));
+        TableColumn<cartitem, Integer> colQty = new TableColumn<>("Qty");
+        colQty.setCellValueFactory(d -> new SimpleIntegerProperty(d.getValue().getQuantity()).asObject());
+        TableColumn<cartitem, Double> colTotal = new TableColumn<>("Total");
+        colTotal.setCellValueFactory(d -> new SimpleDoubleProperty(d.getValue().getTotal()).asObject());
+        cartTable.getColumns().addAll(colName, colQty, colTotal);
+        cartTable.setPrefHeight(140);
+        cartTable.setPrefWidth(400);
+
+        Label totalLabel = new Label("Total: Rs. 0.00");
+        Button checkoutBtn = new Button("Checkout");
+
+        addToCartBtn.setOnAction(e -> {
+            part selected = partBox.getValue();
+            if (selected == null) {
+                showAlert("Select a part first.");
+                return;
+            }
+            int qty;
+            try {
+                qty = Integer.parseInt(qtyField.getText().trim());
+            } catch (NumberFormatException ex) {
+                showAlert("Enter a valid quantity.");
+                return;
+            }
+            boolean added = cart.addItem(selected, qty);
+            if (!added) {
+                showAlert("Invalid quantity or not enough stock.");
+                return;
+            }
+            cartTable.setItems(FXCollections.observableArrayList(cart.getItems()));
+            totalLabel.setText("Total: Rs. " + String.format("%.2f", cart.calculateTotal()));
+        });
+
+        checkoutBtn.setOnAction(e -> {
+            double saleAmount = cart.calculateTotal();
+            String receipt = cart.checkout(inventoryService);
+
+            totalSales += saleAmount;
+            totalSalesLabel.setText("Total Sales: Rs. " + String.format("%.2f", totalSales));
+
+            showAlert(receipt);
+            refreshTable();
+            refreshLowStock();
+            cartTable.setItems(FXCollections.observableArrayList(cart.getItems()));
+            totalLabel.setText("Total: Rs. 0.00");
+        });
+
+        VBox content = new VBox(10,
+                new HBox(10, new Label("Part:"), partBox, new Label("Qty:"), qtyField, addToCartBtn),
+                cartTable, totalLabel, checkoutBtn);
+        content.setPadding(new Insets(10));
+
+        dialog.getDialogPane().setContent(content);
+        dialog.showAndWait();
+    }
+
+    @FXML
+    public void onAuditLogClicked() {
+        StringBuilder content = new StringBuilder();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(inventoryService.auditLogPath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            content.append("No audit log entries yet.");
+        }
+
+        Dialog<Void> dialog = new Dialog<>();
+        dialog.setTitle("Audit Log");
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+
+        TextArea textArea = new TextArea(content.toString());
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+        textArea.setPrefWidth(650);
+        textArea.setPrefHeight(400);
+
+        dialog.getDialogPane().setContent(textArea);
+        dialog.showAndWait();
     }
 
     public void refreshLowStock() {
@@ -164,6 +275,7 @@ public class HelloController implements Initializable {
         List<part> results = inventoryService.searchParts(keyword, category, minPrice, maxPrice);
         tableParts.setItems(FXCollections.observableArrayList(results));
     }
+
     @FXML
     public void onDealersClicked() {
         List<Dealer> randomDealers = dealerService.getRandomDealers();
@@ -234,6 +346,37 @@ public class HelloController implements Initializable {
 
         colDate.setCellValueFactory(data ->
                 new SimpleStringProperty(data.getValue().getDateAdded()));
+
+        colImage.setCellValueFactory(data ->
+                new SimpleStringProperty(data.getValue().getImage()));
+
+        colImage.setCellFactory(column -> new TableCell<part, String>() {
+            private final ImageView imageView = new ImageView();
+
+            @Override
+            protected void updateItem(String imagePath, boolean empty) {
+                super.updateItem(imagePath, empty);
+
+                if (empty || imagePath == null || imagePath.trim().isEmpty()) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
+                }
+
+                try {
+                    Image image = new Image(getClass().getResourceAsStream("/images/parts/" + imagePath));
+                    imageView.setImage(image);
+                    imageView.setFitWidth(40);
+                    imageView.setFitHeight(40);
+                    imageView.setPreserveRatio(true);
+                    setGraphic(imageView);
+                    setText(null);
+                } catch (Exception e) {
+                    setGraphic(null);
+                    setText(imagePath);
+                }
+            }
+        });
     }
 
     @FXML
