@@ -378,8 +378,8 @@ public class HelloController implements Initializable {
                 try {
                     Image image = new Image(getClass().getResourceAsStream("/images/parts/" + imagePath));
                     imageView.setImage(image);
-                    imageView.setFitWidth(40);
-                    imageView.setFitHeight(40);
+                    imageView.setFitWidth(50);
+                    imageView.setFitHeight(50);
                     imageView.setPreserveRatio(true);
                     setGraphic(imageView);
                     setText(null);
