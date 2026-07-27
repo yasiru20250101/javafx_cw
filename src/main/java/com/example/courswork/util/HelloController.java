@@ -140,6 +140,18 @@ public class HelloController implements Initializable {
 
         Label totalLabel = new Label("Total: Rs. 0.00");
         Button checkoutBtn = new Button("Checkout");
+        Button removeBtn = new Button("Remove Selected");
+
+        removeBtn.setOnAction(e -> {
+            cartitem selected = cartTable.getSelectionModel().getSelectedItem();
+            if (selected == null) {
+                showAlert("Select an item in the cart first.");
+                return;
+            }
+            cart.removeItem(selected.getPart().getPartid());
+            cartTable.setItems(FXCollections.observableArrayList(cart.getItems()));
+            totalLabel.setText("Total: Rs. " + String.format("%.2f", cart.calculateTotal()));
+        });
 
         addToCartBtn.setOnAction(e -> {
             part selected = partBox.getValue();
@@ -179,7 +191,7 @@ public class HelloController implements Initializable {
 
         VBox content = new VBox(10,
                 new HBox(10, new Label("Part:"), partBox, new Label("Qty:"), qtyField, addToCartBtn),
-                cartTable, totalLabel, checkoutBtn);
+                cartTable, removeBtn, totalLabel, checkoutBtn);
         content.setPadding(new Insets(10));
 
         dialog.getDialogPane().setContent(content);
