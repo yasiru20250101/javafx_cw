@@ -29,7 +29,8 @@
 
             <HBox spacing="10">
             <Button onAction="#onDealersClicked" prefHeight="26.0" prefWidth="208.0" text="Dealers" />
-            <Button onAction="#onPosClicked" text="Point of Sale" />
+            <Button onAction="#onPosClicked" prefHeight="26.0" prefWidth="183.0" text="Point of Sale" />
+             <Button onAction="#onAuditLogClicked" prefHeight="26.0" prefWidth="183.0" text="Audit Log" />
             </HBox>
 
 
@@ -57,12 +58,9 @@
 
             <HBox spacing="20">
                 <Label fx:id="totalCountLabel" text="Total Parts: 0" />
+                <Label fx:id="totalValueLabel" text="Total Value: Rs. 0.00" />
+                <Label fx:id="totalSalesLabel" text="Total Sales: Rs. 0.00" />
             </HBox>
-         <HBox prefHeight="30.0" prefWidth="555.0">
-            <children>
-                   <Label fx:id="totalValueLabel" text="Total Value: Rs. 0.00" />
-            </children>
-         </HBox>
             <Label fx:id="lowStockLabel" prefHeight="67.0" prefWidth="818.0" style="-fx-text-fill: red;" wrapText="true" />
 
             <TableView fx:id="tableParts" VBox.vgrow="ALWAYS">
@@ -74,6 +72,7 @@
                     <TableColumn fx:id="colQty" text="Qty" />
                     <TableColumn fx:id="colCategory" text="Category" />
                     <TableColumn fx:id="colDate" text="Date Added" />
+                    <TableColumn fx:id="colImage" text="Image" prefWidth="100" />
                 </columns>
             </TableView>
 
